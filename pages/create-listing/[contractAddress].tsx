@@ -1,7 +1,7 @@
 import { NextPage, NextPageContext } from "next";
 
 import * as React from "react";
-import { getNftMetadata, Nft, NftTokenType } from "@alch/alchemy-sdk";
+import { Alchemy, Nft, NftTokenType } from "alchemy-sdk";
 import { MediaRenderer, useMarketplace } from "@thirdweb-dev/react";
 import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
 import { useRouter } from "next/router";
@@ -15,11 +15,13 @@ export async function getServerSideProps(context: NextPageContext) {
     context.query.contractAddress;
   const tokenId: string | string[] | undefined = context.query.tokenId;
 
-  const data = await getNftMetadata(alchemy, {
-    tokenId: tokenId?.toString() ?? "",
-    contract: { address: contractAddress?.toString() ?? "" },
-    tokenType: NftTokenType.ERC721,
-  });
+  const alchemy = new Alchemy();
+
+  const data = await alchemy.nft.getNftMetadata(
+    tokenId?.toString() ?? "",
+    contractAddress?.toString() ?? "",
+    NftTokenType.ERC721,
+  );
 
   return { props: { data: JSON.stringify(data) } };
 }

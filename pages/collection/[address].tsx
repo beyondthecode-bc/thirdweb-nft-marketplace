@@ -4,20 +4,20 @@ import * as React from "react";
 import {
   OwnedNft,
   OwnedNftsResponse,
-  getNftsForOwner,
-} from "@alch/alchemy-sdk";
+  Alchemy,
+} from "alchemy-sdk";
 import NftCard from "../../components/NftCard";
-import { alchemy } from "../../config/alchemy";
 import { useRouter } from "next/router";
 import NFTInfo from "../../components/NFTInfo";
 import { useAddress } from "@thirdweb-dev/react";
 
 export async function getServerSideProps(context: NextPageContext) {
   const address: string | string[] | undefined = context.query.address;
-  const data = await getNftsForOwner(alchemy, address?.toString() ?? "");
+  const data = await alchemy.nft.getNftsForOwner(address?.toString() ?? "");
 
   return { props: { data: JSON.stringify(data), address } };
 }
+const alchemy = new Alchemy();
 
 const CollectionPage: NextPage<{ data: string; address: string }> = ({
   data,

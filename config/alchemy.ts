@@ -1,4 +1,4 @@
-import { initializeAlchemy, Network } from "@alch/alchemy-sdk";
+import { Alchemy, Network } from "alchemy-sdk";
 import { ChainId } from "@thirdweb-dev/sdk";
 import { targetChainId } from "./targetChainConfig";
 
@@ -34,9 +34,9 @@ const getAlchemyNetwork = (chainId: ChainId) => {
 };
 
 const settings = {
-  apiKey: process.env.ALCHEMY_API_KEY,
+  apiKey: 'r30uR6ia2n8_SrE86H3YWpCT9s5qPx0i',
   network: getAlchemyNetwork(targetChainId),
   maxRetries: 10,
 };
 
-export const alchemy = initializeAlchemy(settings);
+export const alchemy = new Alchemy(settings);
